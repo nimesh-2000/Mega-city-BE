@@ -100,4 +100,9 @@ public class BookingServiceImpl implements BookingService {
     public boolean deleteBooking(int id) {
         return bookingDAO.deleteBooking(id);
     }
+
+    @Override
+    public List<Booking> getAllBookings(int id) {
+        return bookingDAO.getAllBookingsById(id);
+    }
 }

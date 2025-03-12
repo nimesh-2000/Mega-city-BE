@@ -20,27 +20,56 @@ public class PaymentServiceImpl implements PaymentService {
     private UserService userService = new UserServiceImpl();
     private CarService carService = new CarServiceImpl();
     private BookingService bookingService = new BookingServiceImpl();
+    private InvoiceService invoiceService = new InvoiceService();
 
-    @Override
-    public void processPayment(Payment payment) {
-        if (payment.getPaymentAmount() <= 0) {
-            throw new IllegalArgumentException("Payment amount must be greater than zero.");
-        }
+//    @Override
+//    public void processPayment(Payment payment) {
+//        if (payment.getPaymentAmount() <= 0) {
+//            throw new IllegalArgumentException("Payment amount must be greater than zero.");
+//        }
+//
+//        boolean ispayed = paymentDAO.createPayment(payment);
+//        if(ispayed){
+//            Booking booking =bookingService.getBookingById(payment.getBookingId());
+//            BookingDTO bookingDTO = new BookingDTO();
+//            bookingDTO.setStatus("Completed");
+//            bookingDTO.setTotalAmount(booking.getTotalAmount());
+//            bookingDTO.setStartDate(booking.getStartDate().toString());
+//            bookingDTO.setEndDate(booking.getEndDate().toString());
+//            bookingService.updateBooking(booking.getId(),bookingDTO);
+//            CarDTO carDTO =carService.getCarById(booking.getCarId());
+//            carDTO.setStatus("Available");
+//            carService.updateCar(carDTO);
+//        }
+//    }
+@Override
+public void processPayment(Payment payment) {
+    if (payment.getPaymentAmount() <= 0) {
+        throw new IllegalArgumentException("Payment amount must be greater than zero.");
+    }
 
-       boolean ispayed = paymentDAO.createPayment(payment);
-        if(ispayed){
-                Booking booking =bookingService.getBookingById(payment.getBookingId());
-            BookingDTO bookingDTO = new BookingDTO();
-              bookingDTO.setStatus("Completed");
-              bookingDTO.setTotalAmount(booking.getTotalAmount());
-              bookingDTO.setStartDate(booking.getStartDate().toString());
-              bookingDTO.setEndDate(booking.getEndDate().toString());
-                bookingService.updateBooking(booking.getId(),bookingDTO);
-            CarDTO carDTO =carService.getCarById(booking.getCarId());
-            carDTO.setStatus("Available");
-            carService.updateCar(carDTO);
+    boolean isPaid = paymentDAO.createPayment(payment);
+    if (isPaid) {
+        Booking booking = bookingService.getBookingById(payment.getBookingId());
+        BookingDTO bookingDTO = new BookingDTO();
+        bookingDTO.setStatus("Completed");
+        bookingDTO.setTotalAmount(booking.getTotalAmount());
+        bookingDTO.setStartDate(booking.getStartDate().toString());
+        bookingDTO.setEndDate(booking.getEndDate().toString());
+        bookingService.updateBooking(booking.getId(), bookingDTO);
+
+        CarDTO carDTO = carService.getCarById(booking.getCarId());
+        carDTO.setStatus("Available");
+        carService.updateCar(carDTO);
+
+        // Generate invoice after successful payment
+        try {
+            invoiceService.generateInvoice(payment, booking);
+        } catch (Exception e) {
+            throw new RuntimeException("Invoice generation failed: " + e.getMessage());
         }
     }
+}
 
     @Override
     public Payment getPaymentById(int id) {

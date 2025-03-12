@@ -1,6 +1,7 @@
 package org.denuwan.mega.megacity.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Payment {
     private int id;
@@ -9,7 +10,7 @@ public class Payment {
     private double paymentAmount;
     private String currency;
     private String paymentMethod;
-    private Timestamp paymentDate;
+    private Date paymentDate;
     private String paymentStatus;
     private String transactionId;
     private String remarks;
@@ -19,7 +20,7 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(int id, int bookingId, int userId, double paymentAmount, String currency, String paymentMethod, Timestamp paymentDate, String paymentStatus, String transactionId, String remarks, Timestamp createdAt, Timestamp updatedAt) {
+    public Payment(int id, int bookingId, int userId, double paymentAmount, String currency, String paymentMethod, Date paymentDate, String paymentStatus, String transactionId, String remarks, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.bookingId = bookingId;
         this.userId = userId;
@@ -82,7 +83,7 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
-    public Timestamp getPaymentDate() {
+    public Date getPaymentDate() {
         return paymentDate;
     }
 

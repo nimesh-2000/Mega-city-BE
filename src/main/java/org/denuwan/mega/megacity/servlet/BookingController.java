@@ -100,4 +100,9 @@ public class BookingController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.getWriter().write(gson.toJson(success ? "Booking Deleted Successfully" : "Failed to Delete Booking"));
     }
+
+
+
+
+
 }

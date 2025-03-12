@@ -136,7 +136,16 @@ public class UserServiceImpl implements UserService {
     public User getDriverUsers() throws SQLException {
         User user = userDAO.getRandomDriver();  // Retrieve profile image from DB
         if (user != null) {
-           return user;
+            return user;
+        }
+        return null;
+    }
+
+    @Override
+    public User getUserById(int id) throws SQLException {
+        User user = userDAO.getUserById(id);
+        if(user !=null){
+            return user;
         }
         return null;
     }
