@@ -50,9 +50,9 @@ public class InvoiceService {
                 parameters.put("plateNumber", car.getPlate_number());
                 parameters.put("customerName", user.getUsername());
                 parameters.put("totalAmount", payment.getPaymentAmount());
-               // parameters.put("paymentDate", payment.getPaymentDate().toString());
-                //parameters.put("bookingStart", booking.getStartDate().toString());
-                //parameters.put("bookingEnd", booking.getEndDate().toString());
+                parameters.put("paymentDate", payment.getPaymentDate());
+                parameters.put("bookingStart", booking.getStartDate());
+                parameters.put("bookingEnd", booking.getEndDate());
 
                 // Fill the report
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());

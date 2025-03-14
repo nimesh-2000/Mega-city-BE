@@ -11,6 +11,10 @@ import java.util.List;
 
 public class CarServiceImpl implements CarService {
     private CarDAO carDAO = new CarDAO();
+
+    public void setCarDAO(CarDAO carDAO) {
+        this.carDAO = carDAO;
+    }
     @Override
     public void addCar(CarDTO carDTO) {
         // Convert DTO to Entity (Car)
